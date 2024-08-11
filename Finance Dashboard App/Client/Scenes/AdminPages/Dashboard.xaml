@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="FinanceApp.Scenes.Dashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FinanceApp.Scenes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!-- DataGrid Header Style -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#3d3d46"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#2d2d34"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+
+        <!-- DataGrid Row Style -->
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="#2d2d34"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="BorderBrush" Value="#3d3d46"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#464655"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <!-- DataTrigger for alternating row background -->
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Background}" Value="LightGray">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DataGrid Cell Style -->
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderBrush" Value="#2d2d34"/>
+            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="0" Grid.Row="0" Margin="20" x:Name="z_z">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+                    <lvc:CartesianChart Series="{Binding AreaSeriesModel.AreaSeries}">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Months" Labels="{Binding AreaSeriesModel.XLabels}"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Revenues and Expenses"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="0" Grid.Row="1" Margin="20,20,266,20" x:Name="z_o" Grid.ColumnSpan="2">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <lvc:CartesianChart Series="{Binding LineSeriesModel1.SeriesCollection}" Margin="0,0,10,0">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Months" Labels="{Binding LineSeriesModel1.Labels}" />
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Expenses" LabelFormatter="{Binding LineSeriesModel1.ValueFormatter}"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="0" Grid.Row="2" Margin="20" x:Name="z_t">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <DataGrid ItemsSource="{Binding ProductsColumnModel.Products}" AutoGenerateColumns="False" Background="#2d2d34" AlternatingRowBackground="LightGray">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*" />
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*" />
+                    <DataGridTextColumn Header="Expense" Binding="{Binding Expense}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="1" Grid.Row="0" Margin="20" x:Name="o_z">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <lvc:CartesianChart Series="{Binding LineSeriesModel.SeriesCollection}">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Months" Labels="{Binding LineSeriesModel.Labels}" />
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Revenues and Profits" LabelFormatter="{Binding LineSeriesModel.ValueFormatter}"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="1" Grid.Row="2" Margin="20" x:Name="o_t">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <DataGrid ItemsSource="{Binding TransactionsColumnModel.Transactions}"   AutoGenerateColumns="False"  Background="#2d2d34" AlternatingRowBackground="LightGray" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="3*"/>
+                    <DataGridTextColumn Header="Buyer" Binding="{Binding Buyer}" Width="2*"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*"/>
+                    <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="2" Grid.Row="0" Margin="20" x:Name="t_z">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <lvc:CartesianChart Series="{Binding ColumnChartModel.ColumnCollection}">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Months" Labels="{Binding ColumnChartModel.Labels}"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Revenues"  LabelFormatter="{Binding ColumnChartModel.Formatter}"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </Border>
+
+        <Border Background="#2d2d34" CornerRadius="15" Grid.Column="1" Grid.Row="1" Margin="266,20,20,20" x:Name="t_o" Grid.ColumnSpan="2">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <lvc:CartesianChart Series="{Binding ScatterSeriesModel.SeriesCollection}" Margin="10,0,0,0">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Price" LabelFormatter="{Binding ScatterSeriesModel.ValueFormatter}"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Expense" LabelFormatter="{Binding ScatterSeriesModel.ValueFormatter}"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+
+
+        </Border>
+
+        <Grid Grid.Column="2" Grid.Row="2" Margin="20" x:Name="t_t">
+            <Border Background="#2d2d34" CornerRadius="15" Grid.Row="0" Margin="5" >
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+                </Border.Effect>
+            </Border>
+            <lvc:PieChart Name="Chart" DataContext="{Binding DoughnutModel}" 
+        Series="{Binding SeriesCollection}" LegendLocation="Right" InnerRadius="50" Margin="10,15,10,15"
+        Background="#2d2d34" Foreground="White">
+                <lvc:PieChart.ChartLegend>
+                    <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
+                </lvc:PieChart.ChartLegend>
+                <lvc:PieChart.DataTooltip>
+                    <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
+                </lvc:PieChart.DataTooltip>
+            </lvc:PieChart>
+        </Grid>
+
+    </Grid>
+</UserControl>
